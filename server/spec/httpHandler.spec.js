@@ -27,7 +27,6 @@ describe('server responses', () => {
     for (var key in res) {
       console.log(key + ': ' + res[key]);
     }
-    //res.write('up');
 
     httpHandler.router(req, res);
     expect(res._responseCode).to.equal(200);
