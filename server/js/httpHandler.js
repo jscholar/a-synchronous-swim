@@ -4,7 +4,7 @@ const headers = require('./cors');
 const multipart = require('./multipartUtils');
 
 // Path for the background image ///////////////////////
-module.exports.backgroundImageFile = path.join('.', 'background.jpg');
+module.exports.backgroundImageFile = path.join('.', 'js', 'background.jpg');
 ////////////////////////////////////////////////////////
 
 let messageQueue = null;
@@ -22,20 +22,43 @@ module.exports.router = (req, res, next = ()=>{}) => {
 
     case 'GET':
 
-      if(req.url === 'http://127.0.0.1:3000/background.jpg' && backgroundImageFile === null) {
+      var header = {};
+      Object.assign(header, headers);
+      if(req.url === '/background.jpg') {
         // If request was for background image that doesn't exist
-        res.writeHead(404, headers);
+        // res.writeHead(404, headers);
+        var background = fs.createReadStream(module.exports.backgroundImageFile);
+        background.on('open', function() {
+          console.log('loading image')
+          console.log(path.join('.','js', 'background.jpg'))
+      //  res.setHeader('Content-Type', 'image/jpeg');
+          background.pipe(res);
+          Object.assign(header, {
+            'Content-Type': 'image/jpeg'
+          });
+          res.writeHead(200, header);
+        });
+        background.on('error', function() {
+          Object.assign(header, {
+            'Content-Type': 'text/plain'
+          });
+          res.writeHead(404, header);
+          res.end('Image not found');
+        });
       } else {
-
+        // Request is for moves
         res.writeHead(200, headers);
-     }
+        res.write(messageQueue);
+        res.end();
+        messageQueue = '';
+      }
 
-      // If request was for new moves
-      res.write(messageQueue);
+      break;
+    case 'OPTIONS':
+      res.writeHead(200, headers);
+      res.end();
       break;
   }
 
-  res.end();
-  messageQueue = '';
   next(); // invoke next() at the end of a request to help with testing!
 };

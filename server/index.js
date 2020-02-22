@@ -8,8 +8,6 @@ httpHandler.initialize('');
 keypressHandler.initialize(message => {
   console.log(`Message received: ${message}`)
   httpHandler.addToQueue(message);
-  // console.log(messageQueue);
-  // console.log(typeof messageQueue);
 });
 
 
