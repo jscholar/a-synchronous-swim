@@ -1,4 +1,4 @@
-(function() {
+// (function() {
 
   const serverUrl = 'http://127.0.0.1:3000';
 
@@ -10,6 +10,21 @@
   // The ajax file uplaoder is provided for your convenience!
   // Note: remember to fix the URL below.
   /////////////////////////////////////////////////////////////////////
+
+  const ajaxGetSwimCommand = () => {
+    $.ajax({
+      type: 'GET',
+      url: 'http://127.0.0.1:3000',
+      cache: false,
+      success: (data, textStatus, jqXHR) => {
+        // reload the page
+        SwimTeam.move(data);
+    //   window.location = window.location.href;
+      }
+    });
+  };
+
+  setInterval(ajaxGetSwimCommand, 500)
 
   const ajaxFileUplaod = (file) => {
     var formData = new FormData();
@@ -46,4 +61,4 @@
     ajaxFileUplaod(file);
   });
 
-})();
+// })();
