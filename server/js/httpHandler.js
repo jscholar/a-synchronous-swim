@@ -12,14 +12,17 @@ module.exports.initialize = (queue) => {
   messageQueue = queue;
 };
 
+module.exports.addToQueue = (message) => {
+  messageQueue += message + '-';
+}
+
 module.exports.router = (req, res, next = ()=>{}) => {
-  console.log('Serving request type ' + req.method + ' for url ' + req.url);
+  // console.log('Serving request type ' + req.method + ' for url ' + req.url);
   res.writeHead(200, headers);
   if (req.method === 'GET') {
-    var rand = Math.floor(Math.random() * Math.floor(4));
-    var commands = ['up', 'down', 'left', 'right'];
-    res.write(commands[rand]);
+      res.write(messageQueue);
   }
   res.end();
+  messageQueue = '';
   next(); // invoke next() at the end of a request to help with testing!
 };

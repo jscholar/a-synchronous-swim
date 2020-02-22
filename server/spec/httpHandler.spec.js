@@ -1,6 +1,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const _ = require('underscore');
 const expect = require('chai').expect;
 const server = require('./mockServer');
 
@@ -29,7 +30,9 @@ describe('server responses', () => {
     httpHandler.router(req, res);
     expect(res._responseCode).to.equal(200);
     expect(res._ended).to.equal(true);
-    expect(res._data.toString()).to.be.oneOf(['up', 'down', 'left', 'right']);
+    var tempArr = res._data.toString().split('-');
+    var tempArr2 = _.without(tempArr, 'up', 'down', 'left', 'right', '');
+    expect(tempArr2.length).to.equal(0);
 
     done();
   });

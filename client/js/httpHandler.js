@@ -18,7 +18,10 @@
       cache: false,
       success: (data, textStatus, jqXHR) => {
         // reload the page
-        SwimTeam.move(data);
+        data = data.split('-');
+        for (let move of data) {
+          SwimTeam.move(move);
+        }
     //   window.location = window.location.href;
       }
     });
