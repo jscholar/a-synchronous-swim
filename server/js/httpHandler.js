@@ -18,10 +18,23 @@ module.exports.addToQueue = (message) => {
 
 module.exports.router = (req, res, next = ()=>{}) => {
   // console.log('Serving request type ' + req.method + ' for url ' + req.url);
-  res.writeHead(200, headers);
-  if (req.method === 'GET') {
+  switch (req.method) {
+
+    case 'GET':
+
+      if(req.url === 'http://127.0.0.1:3000/background.jpg' && backgroundImageFile === null) {
+        // If request was for background image that doesn't exist
+        res.writeHead(404, headers);
+      } else {
+
+        res.writeHead(200, headers);
+     }
+
+      // If request was for new moves
       res.write(messageQueue);
+      break;
   }
+
   res.end();
   messageQueue = '';
   next(); // invoke next() at the end of a request to help with testing!
