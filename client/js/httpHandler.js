@@ -27,20 +27,20 @@
     });
   };
 
-  setInterval(ajaxGetSwimCommand, 500)
+  //setInterval(ajaxGetSwimCommand, 500)
 
   const ajaxFileUplaod = (file) => {
     var formData = new FormData();
     formData.append('file', file);
+    console.log(formData + ' ' + typeof formData);
     $.ajax({
       type: 'POST',
       data: formData,
-      url: 'http://127.0.0.1:3000',
+      url: 'http://127.0.0.1:3000/background.jpg',
       cache: false,
       contentType: false,
       processData: false,
       success: () => {
-
 
         // reload the page
         // window.location = window.location.href;

@@ -58,6 +58,21 @@ module.exports.router = (req, res, next = ()=>{}) => {
       res.writeHead(200, headers);
       res.end();
       break;
+
+    case 'POST':
+      req.setEncoding('utf8')
+      res.writeHead(201, headers);
+      var newBackground = fs.createWriteStream(module.exports.backgroundImageFile);
+      req.on('data', (chunk) => {
+        console.log(`wrote ${chunk} to writable`)
+        // Write the chunks into our writeable
+      })
+
+      // Start piping data from readable into writable
+      req.pipe(newBackground);
+      res.end();
+      break;
+
   }
 
   next(); // invoke next() at the end of a request to help with testing!
